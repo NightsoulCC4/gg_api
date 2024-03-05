@@ -1,10 +1,3 @@
-// Import Fastify
-const fastify = require('fastify')();
-
-// Define a route
-fastify.get('/token', async (request, reply) => {
-    return reply.send({ "msg": "Hello" });
-});
 
 // Run the server
 const start = async () => {
