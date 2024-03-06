@@ -10,15 +10,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/formbody": "^7.4.0",
     "@prisma/client": "^5.10.2",
-    "bcrypt": "^5.1.1",
+    "@types/jsonwebtoken": "^9.0.6",
+    "bcrypt-ts": "^5.0.2",
     "dotenv": "^16.4.5",
-    "fastify": "^4.26.2",
-    "jsonwebtoken": "^9.0.2",
-    "mysql": "^2.18.1"
+    "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
     "@types/node": "^20.11.24",
+    "fastify": "^4.26.2",
     "prisma": "^5.10.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
