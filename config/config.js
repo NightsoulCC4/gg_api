@@ -8,5 +8,6 @@ module.exports = {
     "password": process.env.PASSWORD,
     "port": process.env.PORT,
     "database": process.env.DATABASE,
-    "secret": process.env.SECRET
+    "secret": process.env.SECRET,
+    "database_url": process.env.DATABASE_URL
 };
