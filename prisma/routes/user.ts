@@ -54,6 +54,60 @@ const register = async (body: any) => {
   }
 };
 
-const login = async (body: any) => {};
+const login = async (body: any) => {
+  try {
+    const user = await prisma.user.findMany({
+      where: {
+        username: {
+          in: [body?.username],
+        },
+      },
+    });
+
+    if (bcrypt.compareSync(body.password, user[0].password)) {
+      const user_info = await prisma.user_info.findMany({
+        where: {
+          id_user_info: {
+            in: [user[0]?.user_info_id],
+          },
+        },
+      });
+
+      const bank_account = await prisma.bank_account.findMany({
+        where: {
+          user_info_id: {
+            in: [user[0]?.user_info_id],
+          },
+        },
+      });
+
+      const bank_name = await prisma.bank_name.findMany({
+        where: {
+          bank_name_id: {
+            in: [bank_account[0]?.bank_type],
+          },
+        },
+      });
+
+      return {
+        status: "success",
+        message: "Get data success.",
+        data: {
+          user_info: user_info,
+          bank_account: bank_account,
+          bank_name: bank_name,
+        },
+      };
+    } else
+      return {
+        status: "failed",
+        error: "Password incorrect.",
+      };
+  } catch (exception) {
+    return {
+      error: exception,
+    };
+  }
+};
 
 export { register, login };
