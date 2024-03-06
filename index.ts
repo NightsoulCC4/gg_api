@@ -1,28 +1,34 @@
 const fastify = require('fastify')();
-const connect = require('./connect');
 const jwt = require('jsonwebtoken');
 const config = require('./config/config');
 const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-fastify.get('/token', async (request, reply) => {
+/* fastify.get('/token', async (request, reply) => {
     reply.send(
         {
             token: jwt.sign({ data: 'foobar' }, config.secret, { expiresIn: 72000 }),
             expire_time: 72000
         }
     );
-});
+}); */
 
-fastify.post('/login', async (request, reply) => {
+async function main() {
+    const user = await prisma.user.findMany();
 
-});
+    console.log(user);
+}
 
-fastify.get('/users', async (request, reply) => {
-    const users = await prisma.user.findMany();
-    reply.send(users);
-});
+main()
+    .then(async () => {
+        await prisma.$disconnect()
+    })
+    .catch(async (e) => {
+        console.error(e)
+        await prisma.$disconnect()
+        process.exit(1)
+    })
 
 
 const start = async () => {
