@@ -1,11 +1,12 @@
 const mysql = require('mysql');
+const config = require('./config/config');
 
 const connection = mysql.createConnection({
-    host: '172.105.121.61',
-    user: 'root',
-    password: 'aNrwlOvWxG',
-    port: '3306',
-    database: 'admin_casino'
+    host: config.host,
+    user: config.user,
+    password: config.password,
+    port: config.port,
+    database: config.database
 });
 
 connection.connect((err) => {
@@ -15,4 +16,13 @@ connection.connect((err) => {
     }
 
     console.log('Connected to MySQL server');
+});
+
+connection.end((err) => {
+    if (err) {
+        console.error('Error closing MySQL connection:', err);
+        return;
+    }
+
+    console.log('MySQL connection closed');
 });

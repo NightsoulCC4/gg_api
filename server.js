@@ -1,3 +1,4 @@
+const fastify = require('fastify')();
 
 // Run the server
 const start = async () => {
