@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const config = require("./config/config");
 const { PrismaClient } = require("@prisma/client");
 
-import { register } from "./prisma/user";
+import { register, login } from "./prisma/routes/user";
 
 const prisma = new PrismaClient();
 
@@ -31,25 +31,12 @@ fastify.get("/token", async (request: any, reply: FastifyReply) => {
 
 fastify.post("/register", async (request: any, reply: FastifyReply) => {
   const body: FastifyRequest = request.body;
+  const result = await register(body);
 
-  console.log(body);
-
-  try {
-    register(body)
-      .then(async () => {
-        await prisma.$disconnect();
-      })
-      .catch(async (e) => {
-        console.error(e);
-        await prisma.$disconnect();
-        process.exit(1);
-      });
-  } catch (e: any) {
-    reply.send({
-      error: e,
-    });
-  }
+  reply.send(result);
 });
+
+fastify.post("/login", async (request: any, reply: FastifyReply) => {});
 
 const start = async () => {
   try {
