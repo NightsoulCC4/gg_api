@@ -1,4 +1,6 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const config = require("../../config/config");
 
 const { PrismaClient } = require("@prisma/client");
 
@@ -89,6 +91,10 @@ const login = async (body: any) => {
         },
       });
 
+      const token = jwt.sign({ username: user[0].username }, config.secret, {
+        expiresIn: 72000,
+      });
+
       return {
         status: "success",
         message: "Get data success.",
@@ -96,6 +102,7 @@ const login = async (body: any) => {
           user_info: user_info,
           bank_account: bank_account,
           bank_name: bank_name,
+          token: token,
         },
       };
     } else
