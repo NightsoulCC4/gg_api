@@ -9,7 +9,7 @@ const connection = mysql.createConnection({
     database: config.database
 });
 
-connection.connect((err) => {
+const connect = connection.connect((err) => {
     if (err) {
         console.error('Error connecting to MySQL:', err);
         return;
@@ -26,3 +26,5 @@ connection.end((err) => {
 
     console.log('MySQL connection closed');
 });
+
+module.exports = connect;
