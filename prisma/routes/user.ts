@@ -103,6 +103,7 @@ const login = async (body: any) => {
         status: "success",
         message: "Get data success.",
         data: {
+          user: user,
           user_info: user_info,
           bank_account: bank_account,
           bank_name: bank_name,
