@@ -8,7 +8,9 @@ const prisma = new PrismaClient();
 
 const register = async (body: any) => {
   const salt = bcrypt.genSaltSync(10);
-  const hash = bcrypt.hashSync(body.password, salt);
+  const hash = bcrypt.hashSync(body?.password, salt);
+
+  let bank_type;
 
   try {
     await prisma.user_info.create({
@@ -21,19 +23,20 @@ const register = async (body: any) => {
       },
     });
 
-    const user_info_id = await prisma.user_info.findMany({
+    if (body?.bank_type == "Kasikorn") bank_type = 1;
+    else if (body?.bank_type == "Krungsri") bank_type = 2;
+
+    const user_info_id = await prisma.user_info.findFirst({
       where: {
-        firstname: {
-          in: [body?.firstname],
-        },
+        firstname: body?.firstname,
       },
     });
 
     await prisma.bank_account.create({
       data: {
         bank_no: body?.bank_no,
-        bank_type: parseInt(body?.bank_type),
-        user_info_id: user_info_id[0]?.id_user_info,
+        bank_type: bank_type,
+        user_info_id: user_info_id?.id_user_info,
       },
     });
 
@@ -41,7 +44,8 @@ const register = async (body: any) => {
       data: {
         username: body?.username,
         password: hash,
-        user_info_id: user_info_id[0]?.id_user_info,
+        user_info_id: user_info_id?.id_user_info,
+        credit: 0,
       },
     });
 

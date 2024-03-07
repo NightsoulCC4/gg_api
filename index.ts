@@ -1,10 +1,13 @@
 const fastify = require("fastify")();
 import { FastifyRequest, FastifyReply } from "fastify";
-
 import { register, login } from "./prisma/routes/user";
 import { updateCredit } from "./prisma/routes/credit";
 
 fastify.register(require("@fastify/formbody"));
+fastify.register(require("@fastify/cors"), {
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+});
 
 fastify.post("/register", async (request: any, reply: FastifyReply) => {
   const body: FastifyRequest = request.body;
